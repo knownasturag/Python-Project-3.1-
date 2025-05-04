@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% block title %}Customize Your Sneaker - Retro Sneaks{% endblock %}
+
+{% block extra_css %}
+  .color-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .color-circle:hover {
+    transform: scale(1.1);
+  }
+  .color-circle.selected {
+    border: 2px solid #000;
+    box-shadow: 0 0 0 2px white;
+  }
+  .pattern-btn {
+    transition: all 0.2s;
+  }
+  .pattern-btn:hover {
+    transform: translateY(-2px);
+  }
+  .pattern-btn.selected {
+    background-color: #4f46e5;
+    color: white;
+  }
+  .blob {
+    position: absolute;
+    z-index: -1;
+    border-radius: 50%;
+  }
+{% endblock %}
+
+{% block head_extra %}
+  <script src="{{ STATIC_URL }}js/customize.js" defer></script>
+{% endblock %}
+
+{% block content %}
+  <!-- Background Blobs -->
+  <div class="blob bg-indigo-500/30 w-[600px] h-[600px] top-0 left-0 -translate-x-1/3"></div>
+  <div class="blob bg-indigo-600 w-[500px] h-[500px] top-0 right-0 translate-x-1/4"></div>
+  <div class="blob bg-indigo-500/30 w-[700px] h-[700px] bottom-0 left-1/4 translate-y-1/3"></div>
+  <div class="blob bg-indigo-800/70 w-[600px] h-[600px] bottom-0 right-0 translate-x-1/3 translate-y-1/3"></div>
+
+  <div class="container mx-auto px-4 md:px-8 py-8 relative z-10">
+    <!-- Customization Title -->
+    <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-4">
+      Customize Your Sneaker
+    </h1>
+
+    <p class="text-center max-w-3xl mx-auto mb-10">
+      Whether you're remixing a classic into something never seen before or
+      simplifying the latest drop into a totally neutral palette, your
+      customization journey starts with choosing a shoe. Luckily, we're always
+      adding newness so you can find the just-right way to express your style
+    </p>
+
+    <form method="post" action="{% url 'customize' %}">
+      {% csrf_token %}
+      <div class="flex flex-col lg:flex-row gap-8 mt-8">
+        <!-- Left Column - Sneaker Image and Model Selection -->
+        <div class="lg:w-1/2 space-y-6">
+          <!-- Sneaker Image -->
+          <div class="bg-white rounded-lg p-6 shadow-md flex items-center justify-center">
+            <img id="shoe-preview" src="{{ STATIC_URL }}img/placeholder.png" alt="Sneaker preview" class="max-w-full h-auto max-h-80" />
+          </div>
+
+          <!-- Model Selection -->
+          <div class="bg-gray-200 py-3 px-4 rounded-md">
+            <label for="id_shoe" class="block text-gray-700 mb-2">Choose your model</label>
+            {{ form.shoe }}
+          </div>
+        </div>
+
+        <!-- Right Column - Customization Options -->
+        <div class="lg:w-1/2 space-y-8">
+          <!-- Base Color Selection -->
+          <div>
+            <h2 class="text-2xl font-semibold mb-4">Choose a base colour</h2>
+            <div class="flex flex-wrap gap-3 p-4 bg-white rounded-full shadow-sm">
+              {{ form.base_color.as_hidden }}
+              {% for color in base_colors %}
+                <div class="color-circle base-color-circle {% if form.base_color.value == color.id %}selected{% endif %}" 
+                     style="background-color: {{ color.color }};" 
+                     data-color-id="{{ color.id }}"></div>
+              {% endfor %}
+            </div>
+          </div>
+
+          <!-- Accent Color Selection -->
+          <div>
+            <h2 class="text-2xl font-semibold mb-4">Choose an accent colour</h2>
+            <div class="flex flex-wrap gap-3 p-4 bg-white rounded-full shadow-sm">
+              {{ form.accent_color.as_hidden }}
+              {% for color in accent_colors %}
+                <div class="color-circle accent-color-circle {% if form.accent_color.value == color.id %}selected{% endif %}" 
+                     style="background-color: {{ color.color }};" 
+                     data-color-id="{{ color.id }}"></div>
+              {% endfor %}
+            </div>
+          </div>
+
+          <!-- Pattern Selection -->
+          <div>
+            <h2 class="text-2xl font-semibold mb-4">Choose a pattern</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+              {{ form.sole_pattern.as_hidden }}
+              {% for pattern in patterns %}
+                <div class="pattern-btn bg-gray-200 py-3 px-4 rounded-md text-center {% if form.sole_pattern.value == pattern.id %}selected{% endif %}" 
+                     data-pattern-id="{{ pattern.id }}">
+                  {{ pattern.get_pattern_display }}
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+
+          <!-- Quantity Selection -->
+          <div>
+            <h2 class="text-2xl font-semibold mb-4">Quantity</h2>
+            {{ form.quantity }}
+          </div>
+
+          <!-- Price and Add to Cart -->
+          <div class="pt-6">
+            <div class="flex justify-between items-center mb-4">
+              <h2 class="text-2xl font-semibold">Total Price:</h2>
+              <div>
+                <div>Base price: <span id="base-price">${{ initial_price|default:"0.00" }}</span></div>
+                <div>Customization: <span id="customization-price">$0.00</span></div>
+                <div class="text-2xl font-bold">Total: <span id="total-price">${{ initial_price|default:"0.00" }}</span></div>
+              </div>
+            </div>
+            <button type="submit" class="w-full bg-gray-200 hover:bg-gray-300 py-4 text-xl font-semibold rounded-md transition">
+              Add to cart
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+{% endblock %}

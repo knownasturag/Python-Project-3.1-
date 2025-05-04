@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Retro Sneaks - Log In</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "brand-blue": "#5B7BF0",
+              "brand-orange": "#FF8A00",
+              "brand-purple": "#4A4D7D",
+              "login-purple": "#C7BFFF",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      .page-container {
+        position: relative;
+        min-height: 100vh;
+        width: 100%;
+        background-image: url("/img/bg.png");
+        background-size: cover;
+        background-size: 100% 110%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 20px;
+      }
+
+      .form-container {
+        width: 100%;
+        max-width: 550px;
+        background-color: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        margin-right: 40px;
+      }
+
+      .divider {
+        position: relative;
+        text-align: center;
+        margin: 1.5rem 0;
+      }
+
+      .divider::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background-color: #e5e7eb;
+        z-index: -1;
+      }
+
+      @media (max-width: 768px) {
+        .page-container {
+          justify-content: center;
+          padding: 10px;
+        }
+
+        .form-container {
+          margin-right: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="bg-white py-4 px-4 md:px-8 shadow-sm">
+      <div class="container mx-auto flex justify-between items-center">
+        <!-- Logo -->
+        <div class="ml-10">
+          <a href="/"> <img src="./img/logo.png" alt="Logo" /></a>
+        </div>
+
+        <!-- Navigation - Desktop -->
+        <nav class="hidden md:flex items-center space-x-10">
+          <a
+            href="shop.html"
+            class="font-semibold text-gray-800 hover:text-blue-600"
+            >Shop</a
+          >
+          <a
+            href="essentials.html"
+            class="font-semibold text-gray-800 hover:text-blue-600"
+            >Essentials</a
+          >
+          <a
+            href="customize.html"
+            class="font-semibold text-gray-800 hover:text-blue-600"
+            >Customize</a
+          >
+        </nav>
+
+        <!-- Icons -->
+        <div class="flex items-center space-x-4">
+          <a href="customize.html" class="text-gray-800">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+              />
+            </svg>
+          </a>
+          <a href="profile.html" class="text-gray-800">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+              />
+            </svg>
+          </a>
+
+          <!-- Mobile Menu Button -->
+          <button class="md:hidden text-gray-800" id="mobile-menu-button">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Navigation Menu -->
+      <div class="md:hidden hidden bg-white w-full py-4 mt-2" id="mobile-menu">
+        <div class="container mx-auto flex flex-col space-y-4 px-4">
+          <a
+            href="shop.html"
+            class="font-semibold text-gray-800 hover:text-blue-600"
+            >Shop</a
+          >
+          <a href="essentials.html" class="font-semibold text-gray-800 hover:text-blue-600"
+            >Essentials</a
+          >
+          <a
+            href="customize.html"
+            class="font-semibold text-gray-800 hover:text-blue-600"
+            >Customize</a
+          >
+        </div>
+      </div>
+    </header>
+    <div class="page-container">
+      <!-- Form Container -->
+      <div
+        class="md:w-1/2 flex flex-col items-center justify-center mt-8 md:mt-0"
+      >
+        <div class="flex flex-col items-center space-y-4 max-w-xs w-full">
+          <div
+            class="bg-gray-300 px-12 py-3 text-5xl font-medium rounded-full w-full text-center"
+          >
+            User
+          </div>
+
+          <p class="text-center text-gray-700">Login or sign up to buy</p>
+
+          <button
+            class="w-full bg-gray-300 hover:bg-gray-400 py-3 rounded-full text-black font-medium transition"
+          >
+            Log in
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

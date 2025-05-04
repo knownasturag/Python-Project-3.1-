@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Retro Sneaks - Create an account</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "brand-blue": "#5B7BF0",
+              "brand-orange": "#FF8A00",
+              "brand-purple": "#4A4D7D",
+              "login-purple": "#C7BFFF",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+        overflow-x: hidden;
+      }
+
+      .page-container {
+        position: relative;
+        min-height: 100vh;
+        width: 100%;
+        background-image: url("/img/bg.png");
+        background-size: cover;
+        background-size: 100% 110%;
+        background-repeat: no-repeat;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 20px;
+      }
+
+      .form-container {
+        width: 100%;
+        max-width: 650px;
+        background-color: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        margin-right: 40px;
+      }
+
+      .divider {
+        position: relative;
+        text-align: center;
+        margin: 1.5rem 0;
+      }
+
+      .divider::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background-color: #e5e7eb;
+        z-index: -1;
+      }
+
+      @media (max-width: 768px) {
+        .page-container {
+          justify-content: center;
+          padding: 10px;
+        }
+
+        .form-container {
+          margin-right: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-container">
+      <!-- Form Container -->
+      <div class="form-container">
+        <div class="p-8 md:p-10">
+          <h1 class="text-3xl font-bold text-gray-800 mb-4 text-center">
+            Create an account
+          </h1>
+          <p class="text-center mb-8 text-gray-600">
+            Already have an account?
+            <a href="login.html" class="text-brand-blue font-medium">Log in</a>
+          </p>
+
+          <form>
+            <div class="mb-6">
+              <label for="name" class="block text-gray-600 mb-2"
+                >What should we call you?</label
+              >
+              <input
+                type="text"
+                id="name"
+                placeholder="Enter your profile name"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue"
+              />
+            </div>
+
+            <div class="mb-6">
+              <label for="email" class="block text-gray-600 mb-2"
+                >What's your email?</label
+              >
+              <input
+                type="email"
+                id="email"
+                placeholder="Enter your email address"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue"
+              />
+            </div>
+
+            <div class="mb-2">
+              <div class="flex justify-between items-center mb-2">
+                <label for="password" class="block text-gray-600"
+                  >Create a password</label
+                >
+                <button type="button" class="text-gray-500 flex items-center">
+                  <span>Hide</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5 ml-1"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <input
+                type="password"
+                id="password"
+                placeholder="Enter your password"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue"
+              />
+            </div>
+
+            <p class="text-gray-500 text-sm mb-6">
+              Use 8 or more characters with a mix of letters, numbers & symbols
+            </p>
+
+            <button
+              type="submit"
+              class="w-full bg-gray-300 hover:bg-gray-400 text-gray-800 font-medium py-3 px-4 rounded-lg transition duration-300 mb-8"
+            >
+              Create an account
+            </button>
+
+            <div class="relative flex items-center justify-center mb-6">
+              <hr class="w-full border-gray-300" />
+              <span class="absolute bg-white px-4 text-gray-500"
+                >OR Continue with</span
+              >
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mt-6">
+              <a
+                href="#"
+                class="flex items-center justify-center py-2 px-4 border border-gray-300 rounded-full hover:bg-gray-50 transition duration-300"
+              >
+                <img src="/img/fb.png" alt="Facebook" class="h-6 w-6 mr-2" />
+                Facebook
+              </a>
+              <a
+                href="#"
+                class="flex items-center justify-center py-2 px-4 border border-gray-300 rounded-full hover:bg-gray-50 transition duration-300"
+              >
+                <img src="/img/google.png" alt="Google" class="h-6 w-6 mr-2" />
+                Google
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
