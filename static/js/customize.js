@@ -10,6 +10,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const customizationPrice = document.getElementById('customization-price');
     const shoeImage = document.getElementById('shoe-preview');
 
+    // Color circles
+    const baseColorCircles = document.querySelectorAll('.base-color-circle');
+    const accentColorCircles = document.querySelectorAll('.accent-color-circle');
+    const patternButtons = document.querySelectorAll('.pattern-btn');
+
     // Function to update price
     function updatePrice() {
         const shoeId = shoeSelect.value;
@@ -50,24 +55,89 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // In a real application, you would fetch the image URL from the server
-        // For now, we'll just use a placeholder
-        shoeImage.src = `/static/img/shoes/${shoeId}.jpg`;
+        // Fetch the image URL from the server
+        fetch(`/api/get-shoe-image/?shoe_id=${shoeId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    shoeImage.src = data.image_url;
+                } else {
+                    console.error(data.error);
+                    shoeImage.src = '/static/img/placeholder.png';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching shoe image:', error);
+                shoeImage.src = '/static/img/placeholder.png';
+            });
     }
 
     // Add event listeners
-    shoeSelect.addEventListener('change', function() {
-        updatePrice();
-        updateShoeImage();
+    if (shoeSelect) {
+        shoeSelect.addEventListener('change', function() {
+            updatePrice();
+            updateShoeImage();
+        });
+    }
+
+    if (baseColorSelect) {
+        baseColorSelect.addEventListener('change', updatePrice);
+    }
+
+    if (accentColorSelect) {
+        accentColorSelect.addEventListener('change', updatePrice);
+    }
+
+    if (patternSelect) {
+        patternSelect.addEventListener('change', updatePrice);
+    }
+
+    if (quantityInput) {
+        quantityInput.addEventListener('change', updatePrice);
+    }
+
+    // Color circle selection
+    baseColorCircles.forEach(circle => {
+        circle.addEventListener('click', function() {
+            // Remove selected class from all circles
+            baseColorCircles.forEach(c => c.classList.remove('selected'));
+            // Add selected class to clicked circle
+            this.classList.add('selected');
+            // Update hidden input value
+            baseColorSelect.value = this.dataset.colorId;
+            // Update price
+            updatePrice();
+        });
     });
 
-    baseColorSelect.addEventListener('change', updatePrice);
-    accentColorSelect.addEventListener('change', updatePrice);
-    patternSelect.addEventListener('change', updatePrice);
-    quantityInput.addEventListener('change', updatePrice);
+    accentColorCircles.forEach(circle => {
+        circle.addEventListener('click', function() {
+            // Remove selected class from all circles
+            accentColorCircles.forEach(c => c.classList.remove('selected'));
+            // Add selected class to clicked circle
+            this.classList.add('selected');
+            // Update hidden input value
+            accentColorSelect.value = this.dataset.colorId;
+            // Update price
+            updatePrice();
+        });
+    });
+
+    patternButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Remove selected class from all buttons
+            patternButtons.forEach(b => b.classList.remove('selected'));
+            // Add selected class to clicked button
+            this.classList.add('selected');
+            // Update hidden input value
+            patternSelect.value = this.dataset.patternId;
+            // Update price
+            updatePrice();
+        });
+    });
 
     // Initialize
-    if (shoeSelect.value) {
+    if (shoeSelect && shoeSelect.value) {
         updatePrice();
         updateShoeImage();
     }

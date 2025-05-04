@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'retroSneaks.apps.RetrosneaksConfig'
+    'retroSneaks.apps.RetrosneaksConfig',
     'django.contrib.sites',
     'allauth',
     'allauth.account',
@@ -85,7 +85,7 @@ AUTHENTICATION_BACKENDS = [
 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = 'none'  # Change to 'mandatory' in production
+ACCOUNT_EMAIL_VERIFICATION = 'optional'  # Change to 'mandatory' in production
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 LOGIN_REDIRECT_URL = '/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
@@ -94,16 +94,16 @@ ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'APP': {
-            'client_id': 'your-google-client-id',
-            'secret': 'your-google-client-secret',
+            'client_id': '',
+            'secret': '',
             'key': ''
         },
         'SCOPE': ['profile', 'email'],
     },
     'facebook': {
         'APP': {
-            'client_id': 'your-facebook-app-id',
-            'secret': 'your-facebook-app-secret',
+            'client_id': '',
+            'secret': '',
             'key': ''
         },
         'SCOPE': ['email', 'public_profile'],

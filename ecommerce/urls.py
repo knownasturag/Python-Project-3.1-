@@ -43,7 +43,6 @@ urlpatterns = [
     # Newsletter
     path('newsletter-signup/', s_views.newsletter_signup, name='newsletter_signup'),
 
-    path('accounts/', include('allauth.urls')),
     path('', include('retrosneaks.urls')),
 ]
 

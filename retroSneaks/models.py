@@ -5,12 +5,17 @@ from django.db import models
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
+from django.dispatch import receiver
+from django.contrib.auth.admin import admin
+from django.contrib.auth.admin import UserAdmin
+from django.db.models.signals import post_save
+from django.contrib.auth.admin import CustomUserAdmin
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     address = models.TextField(blank=True, null=True)
     phone = models.CharField(max_length=20, blank=True, null=True)
-    
+
     def __str__(self):
         return f"Profile for {self.user.username}"
 
@@ -22,6 +27,16 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
+
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'address', 'phone')
+    search_fields = ('user__username', 'user__email', 'address', 'phone')
+
+# Unregister the default UserAdmin and register our custom one
+admin.site.unregister(User)
+admin.site.register(User, CustomUserAdmin)
+
 
 class Brand(models.Model):
     name = models.CharField(max_length=100)
@@ -240,106 +255,7 @@ class Order(models.Model):
     def __str__(self):
         return f"Order #{self.id} - {self.user.username}"
 
-class ShoeImageInline(admin.TabularInline):
-    model = ShoeImage
-    extra = 1
 
-class CustomizationOptionInline(admin.TabularInline):
-    model = CustomizationOption
-    extra = 1
-
-@admin.register(Shoe)
-class ShoeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'size', 'price', 'stock', 'condition', 'created_at')
-    list_filter = ('condition', 'size', 'tags')
-    search_fields = ('name', 'description')
-    inlines = [ShoeImageInline, CustomizationOptionInline]
-    filter_horizontal = ('tags',)
-
-@admin.register(Brand)
-class BrandAdmin(admin.ModelAdmin):
-    list_display = ('name',)
-    search_fields = ('name',)
-
-@admin.register(Tag)
-class TagAdmin(admin.ModelAdmin):
-    list_display = ('name', 'tag_type', 'slug')
-    list_filter = ('tag_type',)
-    search_fields = ('name', 'slug')
-    prepopulated_fields = {'slug': ('name',)}
-
-class AccessoryImageInline(admin.TabularInline):
-    model = AccessoryImage
-    extra = 1
-
-@admin.register(Accessory)
-class AccessoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'price', 'stock', 'category', 'created_at')
-    list_filter = ('category',)
-    search_fields = ('name', 'description')
-    inlines = [AccessoryImageInline]
-
-@admin.register(AccessoryCategory)
-class AccessoryCategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug')
-    search_fields = ('name',)
-    prepopulated_fields = {'slug': ('name',)}
-
-@admin.register(CustomizationPrice)
-class CustomizationPriceAdmin(admin.ModelAdmin):
-    list_display = ('customization_type', 'color', 'pattern', 'price', 'active')
-    list_filter = ('customization_type', 'active', 'color', 'pattern')
-    search_fields = ('color', 'pattern')
-
-class CartItemInline(admin.TabularInline):
-    model = CartItem
-    extra = 0
-
-@admin.register(Cart)
-class CartAdmin(admin.ModelAdmin):
-    list_display = ('user', 'item_count', 'total_price', 'created_at', 'updated_at')
-    search_fields = ('user__username', 'user__email')
-    inlines = [CartItemInline]
-
-@admin.register(Order)
-class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'status', 'total_price', 'created_at')
-    list_filter = ('status', 'created_at')
-    search_fields = ('user__username', 'user__email', 'shipping_address')
-    readonly_fields = ('created_at', 'updated_at')
-    filter_horizontal = ('items',)
-
-# Profile Admin Registration
-class ProfileInline(admin.StackedInline):
-    model = Profile
-    can_delete = False
-    verbose_name_plural = 'Profile'
-    fk_name = 'user'
-
-# Extend the existing UserAdmin to include Profile inline
 class CustomUserAdmin(UserAdmin):
-    inlines = (ProfileInline, )
-    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff', 'get_address', 'get_phone')
-    
-    def get_address(self, instance):
-        return instance.profile.address if hasattr(instance, 'profile') else ''
-    get_address.short_description = 'Address'
-    
-    def get_phone(self, instance):
-        return instance.profile.phone if hasattr(instance, 'profile') else ''
-    get_phone.short_description = 'Phone'
-    
-    def get_inline_instances(self, request, obj=None):
-        if not obj:
-            return []
-        return super().get_inline_instances(request, obj)
-
-# Register Profile model directly
-@admin.register(Profile)
-class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'address', 'phone')
-    search_fields = ('user__username', 'user__email', 'address', 'phone')
-
-# Unregister the default UserAdmin and register our custom one
-admin.site.unregister(User)
-admin.site.register(User, CustomUserAdmin)
+    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff')
+    search_fields = ('username', 'email')
