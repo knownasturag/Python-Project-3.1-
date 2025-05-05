@@ -9,7 +9,6 @@ from django.dispatch import receiver
 from django.contrib.auth.admin import admin
 from django.contrib.auth.admin import UserAdmin
 from django.db.models.signals import post_save
-from django.contrib.auth.admin import CustomUserAdmin
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -35,7 +34,7 @@ class ProfileAdmin(admin.ModelAdmin):
 
 # Unregister the default UserAdmin and register our custom one
 admin.site.unregister(User)
-admin.site.register(User, CustomUserAdmin)
+admin.site.register(User, UserAdmin)
 
 
 class Brand(models.Model):

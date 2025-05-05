@@ -84,7 +84,7 @@
               {{ form.base_color.as_hidden }}
               {% for color in base_colors %}
                 <div class="color-circle base-color-circle {% if form.base_color.value == color.id %}selected{% endif %}" 
-                     style="background-color: {{ color.color }};" 
+                     style="background-color: {{ color.get_color_display|default:''|lower }};"
                      data-color-id="{{ color.id }}"></div>
               {% endfor %}
             </div>
@@ -97,7 +97,7 @@
               {{ form.accent_color.as_hidden }}
               {% for color in accent_colors %}
                 <div class="color-circle accent-color-circle {% if form.accent_color.value == color.id %}selected{% endif %}" 
-                     style="background-color: {{ color.color }};" 
+                     style="background-color: {{ color.get_color_display|lower }};" 
                      data-color-id="{{ color.id }}"></div>
               {% endfor %}
             </div>

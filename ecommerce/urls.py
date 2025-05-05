@@ -43,7 +43,6 @@ urlpatterns = [
     # Newsletter
     path('newsletter-signup/', s_views.newsletter_signup, name='newsletter_signup'),
 
-    path('', include('retrosneaks.urls')),
 ]
 
 # Serve media files in development
