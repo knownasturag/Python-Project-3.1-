@@ -208,7 +208,7 @@ def customize(request):
         if not request.user.is_authenticated:
             # Store customization in session and redirect to login
             request.session['customize_data'] = request.POST
-            return redirect('w_account')
+            return redirect('no_account')
         
         form = CustomizationForm(request.POST)
         if form.is_valid():
@@ -392,14 +392,14 @@ def account(request):
             profile.phone = request.POST.get('phone')
             profile.save()
             messages.success(request, 'Profile updated successfully!')
-            return redirect('accounts')
+            return redirect('account')
     
     context = {
         'orders': orders,
         'user': request.user,
     }
     
-    return render(request, 'pages/accounts.html', context)
+    return render(request, 'pages/account.html', context)
 
 # No Account Page (shown when user tries to add to cart without logging in)
 def no_account(request):
@@ -431,11 +431,7 @@ def login_view(request):
     else:
         form = CustomAuthenticationForm()
     
-    context = {
-        'form': form,
-    }
-    
-    return render(request, 'pages/login.html', context)
+    return render(request, 'pages/login.html', {'form': form})
 
 # Logout
 def logout_view(request):

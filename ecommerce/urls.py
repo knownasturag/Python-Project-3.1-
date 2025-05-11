@@ -28,8 +28,8 @@ urlpatterns = [
     path('order-confirmation/<int:order_id>/', s_views.order_confirmation, name='order_confirmation'),
     
     # Account
-    path('account/', s_views.account, name='accounts'),
-    path('no-account/', s_views.no_account, name='w_account'),
+    path('account/', s_views.account, name='account'),
+    path('no-account/', s_views.no_account, name='no_account'),
     
     # Authentication
     path('login/', s_views.login_view, name='login'),
@@ -42,7 +42,6 @@ urlpatterns = [
     
     # Newsletter
     path('newsletter-signup/', s_views.newsletter_signup, name='newsletter_signup'),
-
 ]
 
 # Serve media files in development
